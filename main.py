@@ -24,14 +24,14 @@ tp = cv.test_prob(symp_prob=0.1, asymp_prob=0.01)
 ct = cv.contact_tracing(trace_probs=0.5, trace_time=2)
 
 def hospital_beds(sim):
-    if sim.t == sim.day('2020-03-30'):
+    if sim.t == sim.day('2020-03-01'):
         sim['n_beds_hosp'] = 1000
         sim['n_beds_icu'] = 500
 
 if __name__ == "__main__":
     pars = {
             'pop_type': 'hybrid',
-            'location': 'usa',
+            'location': 'germany',
             'pop_size': 100e3, 
             'start_day': '2020-03-30', 
             'n_days': 365
