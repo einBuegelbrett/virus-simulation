@@ -7,7 +7,7 @@ def protect_elderly(sim):
 
 def mask_wearing(sim):
     if sim.t == sim.day('2020-09-01'):
-        sim['beta'] *= 0.95
+        sim['beta'] *= 0.8
 
     # if sim.t == sim.day('2020-07-01'):
     #     sim['beta'] /= 0.5
@@ -35,9 +35,10 @@ if __name__ == "__main__":
             'pop_type': 'hybrid',
             'location': 'germany',
             'pop_size': 60e3, 
+            'scaled_pop': 0.1,
             'start_day': '2020-09-01', 
             'n_days': 210,
-            # 'beta': 0.01,
+            'beta': 0.02,
             }
 
     alpha = cv.variant(variant={'rel_beta': 1}, label='Alpha', days=0, n_imports=10)
@@ -59,7 +60,8 @@ if __name__ == "__main__":
                          use_waning=True,
                         #  nab_decay=dict(form='nab_growth_decay', growth_time=21, decay_rate1=0.07, decay_time1=47, decay_rate2=0.02, decay_time2=106),
                          )
-    combinedSim.run().plot(to_plot=['cum_deaths', 'cum_infections', 'new_infections', 'new_deaths'])
+    # combinedSim.run().plot(to_plot=['cum_deaths', 'cum_infections', 'new_infections', 'new_deaths','n_infectious'])
+    combinedSim.run().plot(to_plot=['cum_deaths', 'n_infectious'])
 
     maskLockdownSim = cv.Sim(pars=pars,
                 variants=[alpha, delta],
@@ -69,8 +71,8 @@ if __name__ == "__main__":
                 use_waning=True,
                 # nab_decay=dict(form='nab_growth_decay', growth_time=21, decay_rate1=0.07, decay_time=47, decay_rate2=0.02, decay_time2=106),
                 )
-    maskLockdownSim.run().plot(to_plot=['cum_deaths', 'cum_infections', 'new_infections', 'new_deaths'])
-    
+    maskLockdownSim.run().plot(to_plot=['cum_deaths', 'n_infectious'])
+
     freeSim = cv.Sim(pars=pars,
                      variants=[alpha, delta],
                      label='Free',
@@ -79,7 +81,7 @@ if __name__ == "__main__":
                      use_waning=True,
                      # nab_decay=dict(form='nab_growth_decay', growth_time=21, decay_rate1=0.07, decay_time1=47, decay_rate2=0.02, decay_time2=106),
                      )
-    freeSim.run().plot(to_plot=['cum_deaths', 'cum_infections', 'new_infections', 'new_deaths'])
+    freeSim.run().plot(to_plot=['cum_deaths', 'n_infectious'])
 
 
     # analyzeSim = sim2
